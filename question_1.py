@@ -22,7 +22,6 @@
 
 
 
-
 # 1b (level 2)
 # I arranged the data in a .csv file with name;salary;taxes as the columns
 # (see 'customers.csv' in the repo)
@@ -44,7 +43,6 @@ def fraud_from_file(filename):
     customer_file.close()
 
     return potential_frauds
-
 
 
 print("Customers with less than 30% tax rate:")
