@@ -10,7 +10,7 @@
 #     potential_fraud = []
 
 #     for i in range(len(c_list)):
-#         if t_list[i] / s_list[i] < 0.3:
+#         if s_list[i] > 555000 and t_list[i] / s_list[i] < 0.3:
 #             potential_fraud.append(c_list[i])
     
 #     return potential_fraud
@@ -25,25 +25,34 @@
 # 1b (level 2)
 # I arranged the data in a .csv file with name;salary;taxes as the columns
 # (see 'customers.csv' in the repo)
+# NB: not sure about the implementation of the try/except/finally - 
+# if I've done it right
 
 def fraud_from_file(filename):
-    customer_file = open(file=filename, mode='r')
-    categories = customer_file.readline().split()
-    potential_frauds = []
+    customer_file = ""
 
-    for line in customer_file:
-        line = line.split()
-        name = line[0]
-        salary = int(line[1])
-        taxes = int(line[2])
+    try:
+        customer_file = open(file=filename, mode='r')
+        categories = customer_file.readline().split()
+        potential_frauds = []
 
-        if taxes / salary < 0.3:
-            potential_frauds.append(name.capitalize())
+        for line in customer_file:
+            line = line.split()
 
-    customer_file.close()
+            name = line[0]
+            salary = int(line[1])
+            taxes = int(line[2])
 
-    return potential_frauds
+            if salary > 555000 and taxes / salary < 0.3:
+                potential_frauds.append(name.capitalize())
+        
+        return potential_frauds
+    except FileNotFoundError:
+        print("Error: File not found")
+    finally:
+        if customer_file:
+            customer_file.close()
 
 
-print("Customers with less than 30% tax rate:")
+print("Customers with salary above 555000 and less than 30% tax rate:")
 print(fraud_from_file("customers.csv"))
